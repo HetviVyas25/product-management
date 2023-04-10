@@ -379,5 +379,18 @@ class AddToCartViewset(APIView):
         carts=[obj.get_data() for obj in core_models.AddToCart.objects.filter(
             customer__customer_id=customer_id
         )]
-        
-        return core_utils.create_response(carts, 200)
+
+        total = 0
+
+        num_of_products = ""
+        for carts_data in carts:
+            num_of_products=int(carts_data.get("product").get("num_of_products"))
+            price=int(carts_data.get("product").get("price"))
+
+            total = total + (num_of_products*price)
+
+        return core_utils.create_response(
+            {
+            "carts":carts,
+            "total_price":total
+            }, 200)
