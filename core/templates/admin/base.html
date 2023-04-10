@@ -1,0 +1,26 @@
+{% extends "admin/base_site.html" %}
+{% load static %}
+
+{% block title %}{{ title }} | {{ site_title|default:_('NEW TITLE') }}{% endblock %}
+
+{% block branding %}
+<h1 id="site-name" ><a href="{% url 'admin:index' %}" style="color:white;"> <img src="{% static 'images/edlLogo.svg' %}" height="40px" />Product Management</a></h1>
+{% endblock %}
+{% block extrastyle %}
+<style>
+.module h2, .module caption, .inline-group h2,#header{
+    background-color: #0B3BA7;
+}
+
+div.breadcrumbs{
+    background-color:#FF1967;
+}
+
+
+
+</style>
+
+
+{% endblock %}
+
+{% block nav-global %}{% endblock %}
