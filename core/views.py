@@ -380,17 +380,36 @@ class AddToCartViewset(APIView):
             customer__customer_id=customer_id
         )]
 
-        total = 0
+        total_price = 0
+        total_discount = 0
+        total_discount_price = 0
+        num_of_products = 0
 
-        num_of_products = ""
         for carts_data in carts:
             num_of_products=int(carts_data.get("product").get("num_of_products"))
             price=int(carts_data.get("product").get("price"))
+            discount=int((carts_data.get("product").get("discount")).replace("%"," "))
 
-            total = total + (num_of_products*price)
+
+            total_price_per_product = num_of_products*price
+            discount_per_product = total_price_per_product*discount/100
+            total_discount_per_product = total_price_per_product - discount_per_product
+
+            total_discount +=  discount_per_product
+            total_price += total_price_per_product 
+            total_discount_price += total_discount_per_product
+ 
+
+            carts_data['total_price_per_product'] = total_price_per_product
+            carts_data['discount_per_product'] = discount_per_product
+            carts_data['total_discount_price'] = total_discount_per_product
+    
 
         return core_utils.create_response(
             {
             "carts":carts,
-            "total_price":total
+            "total_price":total_price,
+            "total_discount":total_discount,
+            "total_discount_price":total_discount_price
+
             }, 200)

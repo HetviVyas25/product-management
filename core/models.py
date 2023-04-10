@@ -99,6 +99,7 @@ class Product(BaseModel):
     ram=models.CharField(max_length=100)
     num_of_products=models.IntegerField(default=0)
     price=models.CharField(max_length=100)
+    discount=models.CharField(max_length=100,null=True,blank=True)
     category=models.ForeignKey("core.Category", on_delete=models.PROTECT,null=True)
     sub_category=models.ForeignKey("core.SubCategory", on_delete=models.PROTECT,null=True)
 
@@ -113,6 +114,7 @@ class Product(BaseModel):
             "ram":self.ram,
             "num_of_products":self.num_of_products,
             "price":self.price,
+            "discount":self.discount,
             "category":self.category.get_data(),
             "subcategory":self.sub_category.get_data(),
         }
